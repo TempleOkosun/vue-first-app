@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
 <template>
   <li>
-    <h2>{{ name }}</h2>
+    <h2>{{ name }} {{ isFavorite ? "(Favorite)" : "" }}</h2>
     <button @click="toggleDetails">
       {{ detailsAreVisible ? "Hide" : "Show" }} Details
     </button>
+    <button @click="toggleFavorite">Toggle Favorite</button>
     <ul v-if="detailsAreVisible">
       <li><strong>Phone: </strong> {{ phoneNumber }}</li>
       <li><strong>Email: </strong> {{ emailAddress }}</li>
@@ -14,34 +15,52 @@
 
 <script>
 export default {
+  emits: {
+    "toggle-favorite": function (id) {
+      if (id) {
+        return true;
+      } else {
+        console.warn("Id is missing");
+        return false;
+      }
+    },
+  },
+
   props: {
+    id: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
-      require: true,
+      required: true,
     },
     phoneNumber: {
       type: String,
-      require: true,
+      required: true,
     },
     emailAddress: {
       type: String,
-      require: true,
+      required: true,
+    },
+    isFavorite: {
+      type: Boolean,
+      required: true,
+      default: false,
     },
   },
   data() {
     return {
       detailsAreVisible: false,
-      friend: {
-        id: "manuel",
-        name: "Manuel Lorenz",
-        phone: "0123 45678 90",
-        email: "manuel@localhost.com",
-      },
     };
   },
   methods: {
     toggleDetails() {
       this.detailsAreVisible = !this.detailsAreVisible;
+    },
+    toggleFavorite() {
+      // id will be provided as the 1st argument to the method that listens to the event
+      this.$emit("toggle-favorite", this.id);
     },
   },
 };
