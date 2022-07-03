@@ -6,6 +6,8 @@
       {{ detailsAreVisible ? "Hide" : "Show" }} Details
     </button>
     <button @click="toggleFavorite">Toggle Favorite</button>
+    <!-- we are emitting the delete event directly here -->
+    <button @click="$emit('delete', id)">Delete</button>
     <ul v-if="detailsAreVisible">
       <li><strong>Phone: </strong> {{ phoneNumber }}</li>
       <li><strong>Email: </strong> {{ emailAddress }}</li>
@@ -15,16 +17,17 @@
 
 <script>
 export default {
-  emits: {
-    "toggle-favorite": function (id) {
-      if (id) {
-        return true;
-      } else {
-        console.warn("Id is missing");
-        return false;
-      }
-    },
-  },
+  // emits: {
+  //   "toggle-favorite": function (id) {
+  //     if (id) {
+  //       return true;
+  //     } else {
+  //       console.warn("Id is missing");
+  //       return false;
+  //     }
+  //   },
+  // },
+  emits: ["toggle-favorite", "delete"],
 
   props: {
     id: {
