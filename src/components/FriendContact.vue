@@ -14,7 +14,20 @@
 
 <script>
 export default {
-  props: ["name", "phoneNumber", "emailAddress"],
+  props: {
+    name: {
+      type: String,
+      require: true,
+    },
+    phoneNumber: {
+      type: String,
+      require: true,
+    },
+    emailAddress: {
+      type: String,
+      require: true,
+    },
+  },
   data() {
     return {
       detailsAreVisible: false,
